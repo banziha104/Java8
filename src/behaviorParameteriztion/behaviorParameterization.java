@@ -57,7 +57,24 @@ public class behaviorParameterization{
     }
 
     /**
-     * Predicate 역할을 한는 인터페이스를 구현한 클래스
+     * strategy design pattern 을 활용한 추상적 조건으로 필터링
+     * @param inventory
+     * @param p
+     * @return
+     */
+
+    public static List<Apple> filterApples(List<Apple> inventory, ApplePredicate p){
+        List<Apple> result = new ArrayList<>();
+        for(Apple apple : inventory){
+            if(p.test(apple)){
+                result.add(apple);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Predicate 역할을 하는 인터페이스를 구현한 클래스
      */
     public class AppleHeavyWeightPredicate implements ApplePredicate {
         @Override
@@ -71,6 +88,24 @@ public class behaviorParameterization{
             return "green".equals(apple.getColor());
         }
     }
+
+    public void testAppleFilter(){
+        List<Apple> apples = new ArrayList<>();
+        List<Apple> result =
+                filterApples(apples, new ApplePredicate() {
+                    @Override
+                    public boolean test(Apple apple) {
+                        return false;
+                    }
+                });
+    }
+    public void testAppleFilter2(){
+        List<Apple> apples = new ArrayList<>();
+        List<Apple> result =
+                filterApples(apples, (apple) -> "red".equals(apple.getColor()));
+    }
+
+
     public static class Apple {
         private int weight = 0;
         private String color = "";
