@@ -104,7 +104,24 @@ public class behaviorParameterization{
         List<Apple> result =
                 filterApples(apples, (apple) -> "red".equals(apple.getColor()));
     }
+    public void testAppleFilter3(){
+        List<Apple> apples = new ArrayList<>();
+        List<Apple> result =
+                filter(apples, (Apple apple) -> "red".equals(apple.getColor()));
+    }
 
+    public static <T> List<T> filter(List<T> list, Predicate<T> p){
+        List<T> result = new ArrayList<>();
+        for (T e : list){
+            if(p.test(e)){
+                result.add(e);
+            }
+        }
+        return result;
+    }
+    public interface Predicate<T> {
+        boolean test(T t);
+    }
 
     public static class Apple {
         private int weight = 0;

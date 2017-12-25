@@ -145,4 +145,38 @@ List<Apple> apples = new ArrayList<>();
                 filterApples(apples, (apple) -> "red".equals(apple.getColor()));
     }
 ```
-                
+
+7. 제너릭 사용
+
+- 인터페이스 변경
+
+```java
+public interface Predicate<T> {
+    boolean test(T t);
+}
+```
+
+- 구현
+
+```java
+public static <T> List<T> filter(List<T> list, Predicate<T> p){
+        List<T> result = new ArrayList<>();
+        for (T e : list){
+            if(p.test(e)){
+                result.add(e);
+            }
+        }
+        return result;
+    }
+```  
+
+- 실행
+
+```java
+public void testAppleFilter3(){
+        List<Apple> apples = new ArrayList<>();
+        List<Apple> result =
+                filter(apples, (Apple apple) -> "red".equals(apple.getColor()));
+    }
+    
+```
