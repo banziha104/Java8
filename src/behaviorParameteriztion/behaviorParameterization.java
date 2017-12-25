@@ -1,0 +1,106 @@
+package behaviorParameteriztion;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class behaviorParameterization{
+    /**
+     * 단순필터링(노가다)
+     * @param inventory
+     * @return
+     */
+    public static List<Apple> filterGreenApples(List<Apple> inventory) {
+        List<Apple> result = new ArrayList<>();
+        for (Apple apple : inventory) {
+            if ("green".equals(apple.getColor())) {
+                result.add(apple);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 색을 파라미터화
+     * @param inventory
+     * @param color
+     * @return
+     */
+    public static List<Apple> filterApplesByColor(List<Apple> inventory, String color){
+        List<Apple> result = new ArrayList<>();
+        for(Apple apple : inventory ){
+            if(apple.getColor().equals(color)){
+                result.add(apple);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 가능한 모든것을 파라미터화
+     * 문제점 1. 플래그의 역할이 애매함
+     * 문제점 2. 둘 중하나만 필터링할떄 유연하게 대처할수 없음
+     * @param inventory
+     * @param color
+     * @param weight
+     * @param flag : 색과 컬러
+     * @return
+     */
+    public static List<Apple> filterApples(List<Apple> inventory, String color, int weight, boolean flag){
+        List<Apple> result = new ArrayList<>();
+        for (Apple apple : inventory){
+            if((flag && apple.getColor().equals(color) ||
+                    (!flag && apple.getWeight() > weight))){
+                result.add(apple);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Predicate 역할을 한는 인터페이스를 구현한 클래스
+     */
+    public class AppleHeavyWeightPredicate implements ApplePredicate {
+        @Override
+        public boolean test(behaviorParameterization.Apple apple) {
+            return apple.getWeight() > 150;
+        }
+    }
+    public class AppleGreenColorPredicte implements ApplePredicate{
+        @Override
+        public boolean test(Apple apple) {
+            return "green".equals(apple.getColor());
+        }
+    }
+    public static class Apple {
+        private int weight = 0;
+        private String color = "";
+
+        public Apple(int weight, String color) {
+            this.weight = weight;
+            this.color = color;
+        }
+
+        public Integer getWeight() {
+            return weight;
+        }
+
+        public void setWeight(Integer weight) {
+            this.weight = weight;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        public String toString() {
+            return "Apple{" +
+                    "color='" + color + '\'' +
+                    ", weight=" + weight +
+                    '}';
+        }
+    }
+}
