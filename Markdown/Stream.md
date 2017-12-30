@@ -28,7 +28,10 @@ List<String> dishNames =
 
 <br>
 
-# 스트림 연산
+- ### 스트림 연산
+    - filter, map, limit는 서로 연결되어 파이프라인을 형성함
+    - 중간연산 : filter 나 sorted 같은 연산은 다른 스트림을 반환한다
+    - 최종연산 : 스트림 파이프라인에서 결과를 도출함.
 
-- 
+
 
