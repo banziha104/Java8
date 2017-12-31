@@ -33,5 +33,24 @@ List<String> dishNames =
     - 중간연산 : filter 나 sorted 같은 연산은 다른 스트림을 반환한다
     - 최종연산 : 스트림 파이프라인에서 결과를 도출함.
 
+<br>
+    
+---
+
+# 스트림 활용
+
+- filter : Predicate를 인수로 받아서 일치하는 모든 요소를 포함하는 스트림을 반환함.
+- distinct : 고유 요소로 이루어진스트림을 반환함, 중복을 없엠
+- limit : 스트림 축소, 처음 n개의 요소를 반환
+- skip : 처음 n개의 요소를 제외한 스트림을 반환함
+- map : 인수로 Functional을 받으며 새로운 요소로 매핑됌
+- flatMap : flatMap 메서드는 스트림의 각 값을 다른 스트림으로 만든 다음에 모든 스트림을 하나의 스트림으로 연결하는 기능을 수행함(스트림 평면화)
+- allMatch, anyMatch, noneMatch 등 검색과 매칭
+
+<br>
+
+---
+
+
 
 
