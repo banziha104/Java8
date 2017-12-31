@@ -51,6 +51,28 @@ List<String> dishNames =
 
 ---
 
+# 리듀싱 
+
+> reduce 연산을 이용해 스트림 요소를 처리해서 값으로 도출함
+
+```java
+/* 기존 방식 */
+int sum = 0;
+for (int x : number){
+    sum += x;
+}
+
+/* 리듀스 연산 이용*/
+int sum = number
+    .stream()
+    .reduce(0, // 첫번쨰 인수는 초기값
+    (a,b)-> a+b); // 두번째 인수는 두 요소를 조합해서 새로운 값을 만드는 BinaryOperator<T>
+
+/*최대값과 최소값 구하기*/
+Optional<Integer> max = number.stream().reduce(Integer::max);
+
+    
+```
 
 
 
