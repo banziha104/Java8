@@ -218,4 +218,22 @@ menu.stream().collect(
 - 서브그룹으로 데이터 수집
 
 ```java
+// groupby의 컬렉터 형식은 제한이 없다.
+Map<Dish.Type, Long> typesCount 
+        = menu.stream().collect(groupingBy(Dish::getType ,counting())); 
+```
+
+<br>
+
+---
+
+- partitioningBy : 분할 함수로 사용하는 특수한 그룹화 기능, 맵의 키형식은 Boolean
+
+```java
+Map<Boolean, List<Dish>> partitionedMenu =
+    menu.stream().collect(partitioningBy(Dish::isVegetarian))
+    
+/*
+* false = [pork,beef,chicken....]
+* true = [rice, season fruit, pizza...]*/
 ```
