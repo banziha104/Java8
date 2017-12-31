@@ -1,10 +1,10 @@
 package StreamQ;
-import lambdasinaction.chap4.*;
+import StreamQ.chap4.*;
 
 import java.util.stream.*;
 import java.util.*;
 
-import static lambdasinaction.chap4.Dish.menu;
+import static StreamQ.chap4.Dish.menu;
 
 public class NumericStreams{
 

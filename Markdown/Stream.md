@@ -74,5 +74,22 @@ Optional<Integer> max = number.stream().reduce(Integer::max);
     
 ```
 
+<br>
+
+---
+
+# 기본형 특화 스트림
+
+- IntStream, DoubleStream, LongStream 의 세 가지 기본 특화형 스트림을 제공함
+
+```java
+int num = menu.stream()
+            .mapToInt(Dish::getCalories) // IntStream 반환
+            .sum();
+```
+
+- 객체스트림으로 복원하기
+
+
 
 

@@ -1,6 +1,6 @@
 package StreamQ;
 
-import lambdasinaction.chap5.*;
+import StreamQ.*;
 
 import java.util.*;
 
@@ -21,70 +21,36 @@ public class PuttingIntoPractice{
             new Transaction(mario, 2012, 710),	
             new Transaction(mario, 2012, 700),
             new Transaction(alan, 2012, 950)
-        );	
-        
-        
-        // Query 1: Find all transactions from year 2011 and sort them by value (small to high).
-        List<Transaction> tr2011 = transactions.stream()
-                                               .filter(transaction -> transaction.getYear() == 2011)
-                                               .sorted(comparing(Transaction::getValue))
-                                               .collect(toList());
-        System.out.println(tr2011);
-        
-        // Query 2: What are all the unique cities where the traders work?
-        List<String> cities = 
-            transactions.stream()
-                        .map(transaction -> transaction.getTrader().getCity())
-                        .distinct()
-                        .collect(toList());
-        System.out.println(cities);
+        );
 
-        // Query 3: Find all traders from Cambridge and sort them by name.
-        
-        List<Trader> traders = 
-            transactions.stream()
-                        .map(Transaction::getTrader)
-                        .filter(trader -> trader.getCity().equals("Cambridge"))
-                        .distinct()
-                        .sorted(comparing(Trader::getName))
+        List<Transaction> a1 =
+                transactions
+                        .stream()
+                        .filter(y -> y.getYear() == 2011)
+                        .sorted(comparing(Transaction::getValue))
                         .collect(toList());
-        System.out.println(traders);
-        
-        
-        // Query 4: Return a string of all traders’ names sorted alphabetically.
-        
-        String traderStr = 
-            transactions.stream()
-                        .map(transaction -> transaction.getTrader().getName())
-                        .distinct()
-                        .sorted()
-                        .reduce("", (n1, n2) -> n1 + n2);
-        System.out.println(traderStr);
-        
-        // Query 5: Are there any trader based in Milan?
-        
-        boolean milanBased =
-            transactions.stream()
-                        .anyMatch(transaction -> transaction.getTrader()
-                                                            .getCity()
-                                                            .equals("Milan")
-                                 );
-        System.out.println(milanBased);
-        
-        
-        // Query 6: Update all transactions so that the traders from Milan are set to Cambridge.
-        transactions.stream()
+
+        List<String> city =
+                transactions.stream().map(s -> s.getTrader().getCity()).distinct().collect(toList());
+
+        List<String> a3 =
+                transactions
+                    .stream()
+                    .filter(t -> t.getTrader().getCity() == "Cambridge")
                     .map(Transaction::getTrader)
-                    .filter(trader -> trader.getCity().equals("Milan"))
-                    .forEach(trader -> trader.setCity("Cambridge"));
-        System.out.println(transactions);
-        
-        
-        // Query 7: What's the highest value in all the transactions?
-        int highestValue = 
-            transactions.stream()
-                        .map(Transaction::getValue)
-                        .reduce(0, Integer::max);
-        System.out.println(highestValue);      
+                    .distinct()
+                    .sorted(comparing(Trader::getName))
+                    .map(Trader::getName)
+                    .collect(toList());
+
+        boolean a =
+                transactions
+                .stream().anyMatch(transaction -> transaction.getTrader().getCity().equals("Milano"));
+
+        System.out.println(a1);
+        System.out.println(city);
+        System.out.println(a3);
+        System.out.println(a);
     }
+
 }
