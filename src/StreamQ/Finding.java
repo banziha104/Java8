@@ -21,6 +21,7 @@ public class Finding{
     }
     
     private static boolean isVegetarianFriendlyMenu(){
+
         return menu.stream().anyMatch(Dish::isVegetarian);
     }
     

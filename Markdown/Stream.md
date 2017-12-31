@@ -28,6 +28,37 @@ List<String> dishNames =
 
 <br>
 
+# 스트림 만들기
+
+- 스트림 만들기 
+
+```java
+Stream<String> stream = Stream.of("Java8","Lambda") //값으로 만들기
+
+int[] numbers = {1,2,3,4}
+Stream<Integer> stream = Arrays.stream(numbers) // 배열로 만들기
+
+```
+
+- 함수로 무한 스트림 만들기 : 고정된 스트림이 아닌 고정 되지않은 스트림을 만들수 있음
+
+
+```java
+/* iterate 메서드는 초깃값과 람다를 인수로 받아서 새로운 값을 끊임 없이 생산할 수 있다*/
+Stream.iterate(0, n -> n + 2)
+      .limit(10)
+      .forEach(System.out::println);
+
+Stream.generate(Math::random)
+      .limit(5)
+      .forEach(System.out::println);
+
+```
+
+---
+
+<br>
+
 - ### 스트림 연산
     - filter, map, limit는 서로 연결되어 파이프라인을 형성함
     - 중간연산 : filter 나 sorted 같은 연산은 다른 스트림을 반환한다
@@ -90,6 +121,101 @@ int num = menu.stream()
 
 - 객체스트림으로 복원하기
 
+```java
+IntStream intStream = menu.stream().mapToInt(Dish::getCalories);
+Stream<Integer> stream = intStream.boxed() // 숫자스트림을 스트림으로 변환
+```
 
+- OptionalInt, OptionalDouble, OptionalLong
 
+```java
+OptionalInt maxCalories = menu.stream()
+                                .mapToint(Dish::getCalories)
+                                .max();
 
+int max = maxCalories.orElse(1); // 값이 없을때 기본 최대값을 명시적으로 설정
+
+```
+
+- 숫자 범위
+
+```java
+IntStream evenNumbers = IntStream.rangeClosed(1, 100)// 1부터 100까지
+                                    .filter( n -> n % 2 ==0);
+
+```
+
+# 스트림으로 데이터 수집
+
+- Collectors 인터페이스의 구현은 스트림의 요소를 어떤 식으로 도출할지 지정한다
+- Collectors 는 고급 리듀싱으로 다수준으로 그룹화 명령을 수행한다
+- 스트림값에서 최댓값과 최솟값 검색
+
+```java
+Comparator<Dish> dc = Comparator.comparingInt(Dish::getCalories);
+Optional<Dish> most = menu.stream().collect(maxBy(dc));
+```
+
+- Collectors.summingInt, averagingInt
+
+```java
+int totalCaloires = menu.stream().collect(summingInt(Dish::getCalories));
+```
+
+- IntSummaryStatics 클래스
+
+```java
+IntSummaryStatics menuStatistics = menu.stream().collect(summarizingInt(Dish::getCalories));
+
+/*
+* IntSummaryStatics 에 {count=9, sum=4300, min= 120, avertage= 477.778, max=800} 과 같이 저장된다*/
+
+```
+
+- joining() 문자열 연 : 각 객체에 toString 메서드를 호출해서 하나의 문자열로 연결해 반환한다
+
+```java
+String shortMenu = menu.stream().map(Dish::getName).collect(joining(", "));// ,로 구분한다
+```
+
+- 범용리듀싱 연산
+
+```java
+int totalCalories = menu.stream().collect(reducing(0,      //첫번째 인수는 리듀싱 연산의 시작값이거나 스트림에 인수가 없을 때의 반환값
+                                                Dish::getCalories, //두번째 인수는 변환함수
+                                                (i,j) -> i+j // 두 항목을 하나의 값으로 더하는 합계 함수
+                                            ));
+```
+
+<br>
+
+# 그룹화
+
+> 데이터 집합을 하나 이상의 특성으로 분류해서 그룹화함
+
+```java
+Map<Dish.Type, List<Dish>> dishesByType = menu.stream().collect(groupingBy(Dish::getType));
+```
+
+- 다수준 그룹화
+
+```java
+Map<Dish.Type, Map<CaloricLevel, List<Dish>>> dishesByTypeCaloricLevel = 
+menu.stream().collect(
+        groupingBy(Dish::getType), //첫번째 그룹화
+            groupingBy(dish -> {
+                if(dish.getCalories() <= 400){
+                    return CaloricLevel.DIET;
+                }else if (dish.getCalories() <= 700){
+                    return CaloricLevel.NOMAL;
+                }else{
+                    return CaloricLevel.FAT;
+                }
+            })
+)
+```
+
+- 서브그룹으로 데이터 수집
+
+```java
+```
