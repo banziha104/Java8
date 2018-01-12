@@ -136,7 +136,7 @@ inventory.sort(comparing(Apple::getWeight));
 ```java
 
         public static void test2(){
-            inventory.sort((Apple a1, Apple a2)-> a1.getWeight().compareTo(a2.getWeight()));
+            inventory.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()));
         }
 ```
 
